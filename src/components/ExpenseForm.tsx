@@ -39,10 +39,14 @@ export default function ExpenseForm() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Validar formulario
     if (Object.values(expense).includes("")) {
       setError("Todos los campos son necesarios");
       return;
     }
+
+    // Agregar un nuevo gasto
     dispatch({ type: "add-expense", payload: { expense } });
   };
 

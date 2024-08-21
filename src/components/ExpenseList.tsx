@@ -16,7 +16,7 @@ export default function ExpenseList() {
             Listado de Gastos
           </p>
           {state.expenses.map((expense) => (
-            <ExpenseDetail></ExpenseDetail>
+            <ExpenseDetail key={expense.id} expense={expense} />
           ))}
         </>
       )}
