@@ -16,8 +16,9 @@ export default function ExpenseForm() {
   });
 
   const [error, setError] = useState("");
+  const [previousAmount, setPreviousAmount] = useState(0);
 
-  const { dispatch, state } = useBudget();
+  const { dispatch, state, remainingBudget } = useBudget();
 
   useEffect(() => {
     if (state.editingId) {
@@ -25,6 +26,7 @@ export default function ExpenseForm() {
         (currentExpense) => currentExpense.id === state.editingId
       )[0];
       setExpense(editingExpense);
+      setPreviousAmount(editingExpense.amount);
     }
   }, [state.editingId]);
 
@@ -55,6 +57,12 @@ export default function ExpenseForm() {
       return;
     }
 
+    // validar que no se supere el presepuesto disponible
+    if (expense.amount - previousAmount > remainingBudget) {
+      setError("Se ha superado el presupuesto disponible");
+      return;
+    }
+
     // Agregar o actualizar gasto
     if (state.editingId) {
       dispatch({
@@ -64,6 +72,16 @@ export default function ExpenseForm() {
     } else {
       dispatch({ type: "add-expense", payload: { expense } });
     }
+
+    // reiniciar el state
+    setExpense({
+      amount: 0,
+      expenseName: "",
+      category: "",
+      date: new Date(),
+    });
+
+    setPreviousAmount(0);
   };
 
   return (
