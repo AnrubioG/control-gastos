@@ -15,7 +15,7 @@ export default function BudgetTracker() {
           styles={buildStyles({
             pathColor:
               percentage > 85
-                ? "#D42E1C"
+                ? "#EC3F0C"
                 : percentage > 60
                 ? "#FD660B"
                 : "#3b82f6",
